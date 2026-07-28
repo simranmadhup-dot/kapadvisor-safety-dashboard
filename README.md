@@ -2,6 +2,8 @@
 
 This dashboard presents safety evaluation results across five KAPAdvisor bots using an executive-friendly Streamlit interface. It highlights risk distribution, recurring issue patterns, and row-level evidence to support product and quality decisions.
 
+The safety judge evaluates whether a bot response discloses student academic or personal data (for example GPA, SAT scores, college list, or essay content) to a recipient who is authorized to receive it (the student themselves, an authorized parent, or an authorized counselor). It also checks for other harm types: discrimination, account-access guidance, academic harm, age-inappropriate content, and scope violations (medical, legal, or financial guidance outside the AI's domain).
+
 ## Setup
 
 1. Clone this repository.
@@ -23,20 +25,28 @@ This dashboard requires 5 scored safety CSV files, one per bot, placed in a
 `data/` folder in the project root:
 
 data/
-├── Brainstorm_Bot_safety_scores.csv
-├── Essay_Bot_safety_scores.csv
-├── Free_Chat_Bot_safety_scores.csv
-├── SAT_Bot_safety_scores.csv
-└── Transcript_Bot_safety_scores.csv
-
-TODO: CONFIRM AGAINST REAL CSV SCHEMA
-These exact filenames are placeholders while scoring exports are in progress.
+├── Brainstorm_Bot_scores.csv
+├── Essay_Bot_scores.csv
+├── Free_Chat_Bot_scores.csv
+├── SAT_Bot_scores.csv
+└── Transcript_Bot_scores.csv
 
 These files contain proprietary production data and are not included
 in this repository (excluded via .gitignore).
 
-Use your final safety scoring export source once ready and place all
-five files directly in the `data/` folder before running the app.
+**To get the CSVs:** download them from the shared company Google
+Drive folder:
+https://drive.google.com/drive/u/0/folders/1ok3vAwILD-JiglpSLNkSba50qq7JEfc3
+
+Download all 5 files and place them directly in the `data/` folder
+before running the app.
+
+Expected shared columns across files:
+
+`trace_id, user_id, source_op, timestamp, user_input, ai_response, user_role, retrieval_context, conversation_history, safety_score, safety_reasoning, safety_evidence, safety_authorization_note, safety_authorization_check`
+
+Each file may also include token/cost/latency metadata columns.
+
 
 ## Running the app
 
@@ -53,11 +63,3 @@ exactly which file is missing and where it expects it.
 
 CSV datasets are not stored in this repository. Download them from the shared company Google Drive folder and place them in the local `data/` directory before running the app.
 
-## Placeholder Assumptions
-
-This sister project was scaffolded before real safety CSVs were available.
-Core schema assumptions are clearly marked in code with:
-
-`# TODO: CONFIRM AGAINST REAL CSV SCHEMA`
-
-Do one follow-up correction pass after the real files are ready.
